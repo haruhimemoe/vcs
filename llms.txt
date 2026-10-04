@@ -1,0 +1,11 @@
+# @haruhimemoe/vcs
+
+> Diffs and 3-way merges for text and JSON documents, plus canonical hashing. Myers line and character diffs with an edit cap, diff3 text merges with conflict chunks, JSON diffs and merges that understand keyed lists, text paths and ignored paths, canonical JSON and SHA-256. No runtime dependencies. ESM for Node 22.12+, Bun, Deno, browsers and bundlers.
+
+Main exports: `diffText`, `diffChars`, `applyTextDiff`, `mergeText`, `defineCodec`, `diffValue`, `mergeValue`, `withoutIgnored`, `canonicalJson`, `hashValue`, `VcsError`, `REVISION_KINDS`. Subpaths: `@haruhimemoe/vcs/text`, `/json`, `/hash`.
+
+## Docs
+
+- [Install](https://github.com/haruhimemoe/vcs#install)
+- [Quick start](https://github.com/haruhimemoe/vcs#quick-start)
+- [API](https://github.com/haruhimemoe/vcs#api): every export, path patterns, merge rules
