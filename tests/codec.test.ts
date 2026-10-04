@@ -31,6 +31,8 @@ describe("defineCodec", () => {
     [{ lists: { "buckets[].maps": id } }, 'steps into "buckets"'],
     [{ text: ["[].x"] }, "steps into the root list"],
     [{ lists: { a: "x" as never } }, 'lists["a"] needs a key function'],
+    [{ ignore: [""] }, "the root can't be in ignore"],
+    [{ text: [""] }, "the root can't be in text"],
     [{ text: ["a"], ignore: ["a"] }, '"a" is in both text and ignore'],
     [{ lists: { a: id }, text: ["a"] }, '"a" is in both lists and text'],
   ])("refuses %j", (spec, message) => {

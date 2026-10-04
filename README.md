@@ -32,9 +32,9 @@ const merged = mergeValue(base, ours, theirs, pool);
 // merged.value.slots: NM1 with mod "NF", then HD1
 
 diffValue(base, merged.value, pool);
-// [{ op: "add", path: "slots", key: "HD1", ... },
-//  { op: "set", path: "slots[NM1].mod", from: "NM", to: "NF" },
-//  { op: "text", path: "notes", diff: [...] }]
+// [{ op: "text", path: "notes", diff: [...] },
+//  { op: "add", path: "slots", key: "HD1", ... },
+//  { op: "set", path: "slots[NM1].mod", from: "NM", to: "NF" }]
 ```
 
 ## API
@@ -59,7 +59,7 @@ Two edits merge cleanly when at least one unchanged line separates them. Edits t
 | `mergeValue(base, ours, theirs, codec?)` | `{ clean, value, conflicts }`. |
 | `withoutIgnored(value, codec?)` | A copy without the ignored paths, for hashing. |
 
-**Paths.** Object keys joined by `.`, with `[]` stepping into the items of a keyed list: `slots[].note`. A pattern may only step into a list declared in `lists`. The root is `""`, and its items are `[]`.
+**Paths.** Object keys joined by `.`, with `[]` stepping into the items of a keyed list: `slots[].note`. A pattern may only step into a list declared in `lists`. The root is `""` (it can be a keyed list, not a text or ignored path), and its items are `[]`.
 
 **Keyed lists** match items by the string the key function returns. A missing, non-string or repeated key throws `bad-key`. Arrays not in `lists` are one value. Changing an item's key is a remove plus an add.
 

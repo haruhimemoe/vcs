@@ -59,6 +59,26 @@ describe("mergeValue: values and objects", () => {
     expect(mergeValue({ a: 1 }, { a: 3 }, {}).value).toEqual({ a: 3 });
   });
 
+  it("keeps ours for an ignored key one side removed", () => {
+    const ignoreU = defineCodec({ ignore: ["u"] });
+    expect(mergeValue({ u: 1, k: 1 }, { k: 1 }, { u: 2, k: 1 }, ignoreU)).toEqual({
+      clean: true,
+      value: { k: 1 },
+      conflicts: [],
+    });
+  });
+
+  it("removes an item whose only edit was to ignored fields", () => {
+    const c = defineCodec({ lists: { s: (x: { id: string }) => x.id }, ignore: ["s[].t"] });
+    expect(
+      mergeValue({ s: [{ id: "a", t: 1 }] }, { s: [{ id: "a", t: 2 }] }, { s: [] }, c),
+    ).toEqual({
+      clean: true,
+      value: { s: [] },
+      conflicts: [],
+    });
+  });
+
   it("keeps ours for ignored paths", () => {
     const m = mergeValue(
       { updatedAt: 1, n: 1 },

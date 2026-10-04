@@ -13,6 +13,7 @@
 import { mergeText } from "../text/index.js";
 import { type Codec, child, EMPTY_CODEC } from "./codec.js";
 import { mergeList } from "./merge-list.js";
+import { strip } from "./strip.js";
 import type { Conflict, Segment, ValueMerge } from "./types.js";
 import { at, equal, isRecord } from "./values.js";
 
@@ -54,12 +55,14 @@ export const mergeMember = (
   pattern: string,
   segments: Segment[],
 ): unknown => {
+  if (ctx.codec.ignore.has(pattern)) return ours;
   const removedOurs = base !== undefined && ours === undefined;
   const removedTheirs = base !== undefined && theirs === undefined;
   if (removedOurs && removedTheirs) return undefined;
   if (removedOurs || removedTheirs) {
     const kept = removedOurs ? theirs : ours;
-    if (equal(base, kept)) return undefined;
+    // An edit only to ignored fields isn't an edit.
+    if (equal(strip(base, ctx.codec, pattern), strip(kept, ctx.codec, pattern))) return undefined;
     ctx.conflicts.push({ ...at(segments), kind: "remove-edit", base, ours, theirs });
     return kept;
   }

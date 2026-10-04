@@ -10,7 +10,8 @@
 import { type Codec, child, EMPTY_CODEC } from "./codec.js";
 import { isRecord } from "./values.js";
 
-const strip = (value: unknown, codec: Codec, pattern: string): unknown => {
+/** A copy of a value found at `pattern` without the ignored paths below it. Internal. */
+export const strip = (value: unknown, codec: Codec, pattern: string): unknown => {
   if (codec.lists.has(pattern) && Array.isArray(value)) {
     const item = child(pattern, "[]");
     return value.map((v) => strip(v, codec, item));

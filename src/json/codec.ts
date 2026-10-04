@@ -62,7 +62,8 @@ const checkSteps = (pattern: string, lists: ReadonlyMap<string, KeyOf>, original
  * @param spec {CodecSpec} lists, text and ignore patterns
  * @returns {Codec} the checked codec
  * @throws {VcsError} `bad-codec` for a malformed pattern, a pattern stepping into a list that
- *         isn't declared, a list without a key function, or a pattern listed twice
+ *         isn't declared, a list without a key function, a pattern listed twice, or the root
+ *         in text or ignore
  */
 export const defineCodec = (spec: CodecSpec): Codec => {
   const lists = new Map<string, KeyOf>();
@@ -75,6 +76,7 @@ export const defineCodec = (spec: CodecSpec): Codec => {
   const collect = (patterns: string[] | undefined, kind: string): Set<string> => {
     const out = new Set<string>();
     for (const original of patterns ?? []) {
+      if (original === "") throw new VcsError("bad-codec", `the root can't be in ${kind}`);
       const pattern = normalize(original);
       if (all.has(pattern))
         throw new VcsError("bad-codec", `"${original}" is in both ${all.get(pattern)} and ${kind}`);
