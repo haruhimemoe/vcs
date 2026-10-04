@@ -93,7 +93,11 @@ describe("mergeText", () => {
     const next = rng(5);
     for (let i = 0; i < 200; i++) {
       const base = randomLines(next, 20 + Math.floor(next() * 20));
-      const m = mergeText(base.join(""), mutate(next, base, 3).join(""), mutate(next, base, 3).join(""));
+      const m = mergeText(
+        base.join(""),
+        mutate(next, base, 3).join(""),
+        mutate(next, base, 3).join(""),
+      );
       if (m.clean) expect(m.chunks.length).toBeLessThanOrEqual(1);
       else expect(m.chunks.some((c) => "conflict" in c)).toBe(true);
     }

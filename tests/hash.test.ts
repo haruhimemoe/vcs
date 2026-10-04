@@ -18,7 +18,7 @@ describe("canonicalJson", () => {
   });
 
   it("writes scalars like JSON", () => {
-    expect(canonicalJson("a\"b")).toBe('"a\\"b"');
+    expect(canonicalJson('a"b')).toBe('"a\\"b"');
     expect(canonicalJson(true)).toBe("true");
     expect(canonicalJson(-0.5)).toBe("-0.5");
     expect(canonicalJson(null)).toBe("null");

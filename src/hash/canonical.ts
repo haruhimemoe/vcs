@@ -22,7 +22,8 @@ const write = (value: unknown, path: string, seen: Set<object>): string => {
     case "boolean":
       return JSON.stringify(value);
     case "number":
-      if (!Number.isFinite(value)) throw new VcsError("not-json", `${path || "value"} isn't finite`);
+      if (!Number.isFinite(value))
+        throw new VcsError("not-json", `${path || "value"} isn't finite`);
       return JSON.stringify(value);
     case "object":
       break;
@@ -35,8 +36,7 @@ const write = (value: unknown, path: string, seen: Set<object>): string => {
   if (Array.isArray(value)) {
     out = `[${value
       .map((item, index) => {
-        if (item === undefined)
-          throw new VcsError("not-json", `${path}[${index}] is undefined`);
+        if (item === undefined) throw new VcsError("not-json", `${path}[${index}] is undefined`);
         return write(item, `${path}[${index}]`, seen);
       })
       .join(",")}]`;
@@ -47,7 +47,10 @@ const write = (value: unknown, path: string, seen: Set<object>): string => {
     out = `{${Object.keys(record)
       .filter((key) => record[key] !== undefined)
       .sort()
-      .map((key) => `${JSON.stringify(key)}:${write(record[key], path ? `${path}.${key}` : key, seen)}`)
+      .map(
+        (key) =>
+          `${JSON.stringify(key)}:${write(record[key], path ? `${path}.${key}` : key, seen)}`,
+      )
       .join(",")}}`;
   }
   seen.delete(value);
