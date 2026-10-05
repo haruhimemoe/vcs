@@ -1,6 +1,6 @@
 {
   "name": "@haruhimemoe/vcs",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Revisions, diffs and 3-way merges for JSON documents and text. Line diffs, keyed-list aware JSON diffs, diff3 text merge, structured merge with conflicts, canonical hashing. No dependencies.",
   "keywords": [
     "diff",
